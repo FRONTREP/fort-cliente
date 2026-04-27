@@ -221,6 +221,7 @@ body::after{content:'';position:fixed;inset:0;background:radial-gradient(ellipse
   <div class="success-icon">🎉</div>
   <div class="success-title">Avaliação Enviada!</div>
   <div class="success-sub">Obrigado pela sua opinião.<br>Ela já está no nosso painel em tempo real.</div>
+  <button class="dash-btn" onclick="retornarPesquisa()">↩ RETORNAR À PESQUISA</button>
 </div>
 
 <script>
@@ -274,6 +275,18 @@ function submitForm(){
 
 function irParaDashboard(){
   window.location.href='dashboard.html';
+}
+
+function retornarPesquisa(){
+  // Reset form
+  groups.forEach(function(g){scores[g]=0;});
+  document.querySelectorAll('.emoji-btn').forEach(function(b){b.classList.remove('selected');});
+  document.getElementById('comment').value='';
+  document.getElementById('prog').style.width='0%';
+  document.getElementById('prog-label').textContent='0 de 8 avaliados';
+  document.getElementById('submit-btn').disabled=true;
+  document.getElementById('success-overlay').classList.remove('show');
+  document.getElementById('form-area').style.display='';
 }
 </script>
 </body>
