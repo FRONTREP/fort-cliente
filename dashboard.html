@@ -2,179 +2,173 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+<meta name="theme-color" content="#0a0c10"/>
 <title>FORT — Dashboard de Satisfação</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+*,*::before,*::after{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0;}
 :root{
-  --amber:#f5a800;--amber-dim:#c47f00;--amber-glow:rgba(245,168,0,0.18);
-  --red:#e8242f;--red-glow:rgba(232,36,47,0.22);
-  --green:#00e676;--green-glow:rgba(0,230,118,0.18);
-  --blue:#00b4d8;--blue-glow:rgba(0,180,216,0.18);
-  --bg:#07080a;--bg2:#0d0f12;--bg3:#111318;--bg4:#161a20;
-  --border:rgba(245,168,0,0.10);--border-bright:rgba(245,168,0,0.35);
-  --text:#f0e8d0;--text-dim:rgba(240,232,208,0.45);--text-mid:rgba(240,232,208,0.7);
+  --gold:#FFB800;--gold-bg:rgba(255,184,0,0.12);--gold-border:rgba(255,184,0,0.45);
+  --green:#00E676;--green-bg:rgba(0,230,118,0.12);--green-border:rgba(0,230,118,0.45);
+  --red:#FF4444;--red-bg:rgba(255,68,68,0.12);--red-border:rgba(255,68,68,0.45);
+  --orange:#FF9800;--orange-bg:rgba(255,152,0,0.12);--orange-border:rgba(255,152,0,0.45);
+  --bg:#0a0c10;--bg-card:#13161d;--bg-card2:#191d26;
+  --border:#252930;--border-bright:rgba(255,184,0,0.5);
+  --text:#FFFFFF;--text-mid:#C0CAD8;--text-dim:#6B7A90;
 }
-body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;min-height:100vh;overflow-x:hidden;}
-body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:44px 44px;pointer-events:none;z-index:0;}
-body::after{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(245,168,0,0.06) 0%,transparent 70%);pointer-events:none;z-index:0;}
-.scanline{position:fixed;left:0;right:0;height:2px;background:linear-gradient(transparent,rgba(245,168,0,0.04),transparent);pointer-events:none;z-index:999;animation:scanline 9s linear infinite;}
-@keyframes scanline{0%{top:-2px}100%{top:100vh}}
+html{-webkit-text-size-adjust:100%;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+.wrap{position:relative;z-index:1;padding:1.75rem 1.25rem 4rem;max-width:1100px;margin:0 auto;}
 
-.wrap{position:relative;z-index:1;padding:1.5rem 1rem 4rem;max-width:1100px;margin:0 auto;}
+.dash-header{display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:space-between;justify-content:space-between;-webkit-flex-wrap:wrap;flex-wrap:wrap;gap:1rem;margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border);}
+.dash-title{font-family:'Orbitron',monospace;font-size:18px;color:var(--gold);letter-spacing:3px;text-transform:uppercase;font-weight:900;}
+.dash-sub{font-size:13px;color:var(--text-mid);margin-top:6px;}
+.live-badge{display:-webkit-inline-flex;display:inline-flex;-webkit-align-items:center;align-items:center;gap:8px;background:var(--green-bg);border:2px solid var(--green-border);border-radius:100px;padding:8px 18px;font-size:12px;font-weight:700;color:var(--green);font-family:'Orbitron',monospace;letter-spacing:1.5px;}
+.live-dot{width:9px;height:9px;border-radius:50%;background:var(--green);-webkit-flex-shrink:0;flex-shrink:0;-webkit-animation:blink 1.2s infinite;animation:blink 1.2s infinite;}
+@-webkit-keyframes blink{0%,100%{opacity:1}50%{opacity:0.1}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.1}}
+.last-update{font-size:12px;color:var(--text-dim);text-align:right;margin-top:5px;font-weight:500;}
 
-/* Header */
-.dash-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:1.75rem;}
-.dash-brand{display:flex;align-items:center;gap:12px;}
-.dash-title{font-family:'Orbitron',monospace;font-size:15px;color:var(--amber);letter-spacing:3px;text-transform:uppercase;}
-.dash-sub{font-size:11px;color:var(--text-dim);letter-spacing:1px;margin-top:2px;}
-.live-badge{display:flex;align-items:center;gap:7px;background:rgba(0,230,118,0.07);border:1px solid rgba(0,230,118,0.22);border-radius:100px;padding:6px 14px;font-size:11px;color:var(--green);font-family:'Orbitron',monospace;letter-spacing:1.5px;}
-.live-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green-glow);animation:blink 1.2s infinite;}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
-.last-update{font-size:10px;color:var(--text-dim);letter-spacing:0.5px;text-align:right;}
-
-/* KPI row */
-.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0.75rem;margin-bottom:1rem;}
-.kpi-card{background:var(--bg3);border:1px solid var(--border);border-radius:14px;padding:1rem 1.1rem;position:relative;overflow:hidden;transition:border-color 0.2s;}
-.kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--amber),transparent);opacity:0.5;}
+.kpi-row{display:-webkit-flex;display:flex;-webkit-flex-wrap:wrap;flex-wrap:wrap;gap:1rem;margin-bottom:1.25rem;}
+.kpi-card{-webkit-flex:1 1 185px;flex:1 1 185px;background:var(--bg-card);border:2px solid var(--border);border-radius:16px;padding:1.4rem;position:relative;overflow:hidden;-webkit-transition:border-color 0.2s;transition:border-color 0.2s;}
+.kpi-accent{position:absolute;top:0;left:0;right:0;height:3px;background:var(--gold);}
+.kpi-accent.green{background:var(--green);}
+.kpi-accent.red{background:var(--red);}
 .kpi-card:hover{border-color:var(--border-bright);}
-.kpi-label{font-size:10px;color:var(--text-dim);letter-spacing:1.5px;text-transform:uppercase;font-family:'Orbitron',monospace;}
-.kpi-value{font-size:36px;font-family:'Orbitron',monospace;color:var(--amber);line-height:1.1;margin-top:4px;font-weight:900;}
+.kpi-label{font-size:11px;font-weight:700;color:var(--text-dim);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;}
+.kpi-value{font-size:46px;font-family:'Orbitron',monospace;color:var(--gold);line-height:1;font-weight:900;}
 .kpi-value.green{color:var(--green);}
 .kpi-value.red{color:var(--red);}
-.kpi-meta{font-size:11px;color:var(--text-mid);margin-top:4px;}
+.kpi-value.sm{font-size:20px;padding-top:6px;line-height:1.35;}
+.kpi-meta{font-size:13px;color:var(--text-mid);margin-top:10px;font-weight:500;}
 
-/* Section: charts + table */
-.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:0.75rem;}
-@media(max-width:700px){.grid-2{grid-template-columns:1fr;}}
+.grid-2{display:-webkit-flex;display:flex;-webkit-flex-wrap:wrap;flex-wrap:wrap;gap:1rem;margin-bottom:1rem;}
+.grid-2>.panel{-webkit-flex:1 1 300px;flex:1 1 300px;}
+.panel{background:var(--bg-card);border:2px solid var(--border);border-radius:16px;padding:1.5rem;}
+.panel-title{font-family:'Orbitron',monospace;font-size:11px;font-weight:700;color:var(--gold);letter-spacing:2.5px;text-transform:uppercase;margin-bottom:1.4rem;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:8px;}
 
-.panel{background:var(--bg3);border:1px solid var(--border);border-radius:14px;padding:1.1rem 1.1rem 1.2rem;transition:border-color 0.2s;}
-.panel:hover{border-color:rgba(245,168,0,0.2);}
-.panel-title{font-size:11px;color:var(--amber);letter-spacing:2px;text-transform:uppercase;font-family:'Orbitron',monospace;margin-bottom:1rem;display:flex;align-items:center;gap:8px;}
-.panel-title span{font-size:14px;}
+.bar-list{display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;gap:16px;}
+.bar-item{display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:12px;}
+.bar-name{font-size:13px;font-weight:600;color:var(--text-mid);width:110px;-webkit-flex-shrink:0;flex-shrink:0;white-space:nowrap;}
+.bar-track{-webkit-flex:1;flex:1;height:14px;background:rgba(255,255,255,0.07);border-radius:8px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:8px;background:var(--gold);-webkit-transition:width 0.6s;transition:width 0.6s;}
+.bar-fill.low{background:var(--red);}
+.bar-fill.mid{background:var(--orange);}
+.bar-score{font-size:15px;font-weight:700;font-family:'Orbitron',monospace;color:var(--gold);width:34px;text-align:right;}
+.bar-score.low{color:var(--red);}
+.bar-score.mid{color:var(--orange);}
 
-/* Bar chart */
-.bar-list{display:flex;flex-direction:column;gap:10px;}
-.bar-item{display:flex;align-items:center;gap:10px;}
-.bar-name{font-size:11px;color:var(--text-mid);width:80px;flex-shrink:0;letter-spacing:0.3px;}
-.bar-track{flex:1;height:8px;background:rgba(245,168,0,0.07);border-radius:6px;overflow:hidden;}
-.bar-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--amber-dim),var(--amber));transition:width 0.6s cubic-bezier(.4,0,.2,1);box-shadow:0 0 8px var(--amber-glow);}
-.bar-fill.low{background:linear-gradient(90deg,#a01018,var(--red));box-shadow:0 0 8px var(--red-glow);}
-.bar-fill.mid{background:linear-gradient(90deg,#b06a00,#e09000);}
-.bar-score{font-size:12px;color:var(--amber);width:26px;text-align:right;font-family:'Orbitron',monospace;font-weight:700;}
-.bar-emoji{font-size:16px;width:22px;text-align:center;}
+.dist-row{display:-webkit-flex;display:flex;-webkit-align-items:flex-end;align-items:flex-end;gap:8px;height:100px;padding-bottom:4px;}
+.dist-col{-webkit-flex:1;flex:1;display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;-webkit-align-items:center;align-items:center;-webkit-justify-content:flex-end;justify-content:flex-end;gap:5px;}
+.dist-bar-outer{width:100%;background:rgba(255,255,255,0.07);border-radius:5px 5px 0 0;overflow:hidden;}
+.dist-bar-inner{width:100%;border-radius:5px 5px 0 0;-webkit-transition:height 0.6s;transition:height 0.6s;}
+.dist-emoji{font-size:20px;line-height:1;}
+.dist-count{font-size:13px;font-weight:700;color:var(--text-mid);}
+.dist-footer{display:-webkit-flex;display:flex;-webkit-justify-content:space-around;justify-content:space-around;margin-top:10px;}
+.dist-footer span{font-size:11px;font-weight:600;color:var(--text-dim);-webkit-flex:1;flex:1;text-align:center;}
 
-/* Radar / circle chart */
-.radar-wrap{display:flex;align-items:center;justify-content:center;padding:0.5rem 0;}
-svg.radar{overflow:visible;}
-
-/* Recent responses table */
-.responses-panel{background:var(--bg3);border:1px solid var(--border);border-radius:14px;padding:1.1rem 1.1rem 1.2rem;margin-bottom:0.75rem;}
-.resp-table{width:100%;border-collapse:collapse;font-size:12px;}
-.resp-table th{font-size:9px;color:var(--text-dim);letter-spacing:1.5px;text-transform:uppercase;font-family:'Orbitron',monospace;padding:6px 8px;text-align:left;border-bottom:1px solid var(--border);}
-.resp-table td{padding:8px 8px;border-bottom:1px solid rgba(245,168,0,0.05);color:var(--text-mid);vertical-align:top;}
+.responses-panel{background:var(--bg-card);border:2px solid var(--border);border-radius:16px;padding:1.5rem;margin-bottom:1rem;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.resp-table{width:100%;border-collapse:collapse;}
+.resp-table th{font-size:10px;font-weight:700;color:var(--gold);letter-spacing:2px;text-transform:uppercase;padding:0 12px 14px;text-align:left;border-bottom:2px solid var(--gold-border);}
+.resp-table td{padding:13px 12px;border-bottom:1px solid var(--border);color:var(--text-mid);vertical-align:middle;font-size:13px;font-weight:500;}
 .resp-table tr:last-child td{border-bottom:none;}
-.resp-table tr:hover td{background:rgba(245,168,0,0.03);}
-.score-pill{display:inline-flex;align-items:center;gap:4px;background:rgba(245,168,0,0.08);border:1px solid rgba(245,168,0,0.18);border-radius:100px;padding:2px 8px;font-size:11px;color:var(--amber);font-family:'Orbitron',monospace;}
-.score-pill.low{background:rgba(232,36,47,0.08);border-color:rgba(232,36,47,0.25);color:var(--red);}
-.score-pill.mid{background:rgba(230,140,0,0.08);border-color:rgba(230,140,0,0.25);color:#e09000;}
-.comment-cell{color:var(--text-dim);font-style:italic;max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.resp-table tr:hover td{background:rgba(255,184,0,0.03);}
+.score-pill{display:-webkit-inline-flex;display:inline-flex;-webkit-align-items:center;align-items:center;gap:5px;border-radius:100px;padding:5px 13px;font-size:14px;font-weight:700;border:2px solid var(--gold-border);color:var(--gold);background:var(--gold-bg);white-space:nowrap;}
+.score-pill.low{background:var(--red-bg);border-color:var(--red-border);color:var(--red);}
+.score-pill.mid{background:var(--orange-bg);border-color:var(--orange-border);color:var(--orange);}
+.stags{display:-webkit-flex;display:flex;-webkit-flex-wrap:wrap;flex-wrap:wrap;gap:4px;}
+.stag{background:var(--bg-card2);border:1px solid var(--border);border-radius:6px;padding:3px 8px;font-size:12px;font-weight:600;color:var(--text-mid);}
+.comment-cell{color:var(--text-dim);font-style:italic;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 
-/* Distribuição */
-.dist-row{display:flex;align-items:flex-end;gap:6px;height:90px;padding:0 0 8px;}
-.dist-col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:4px;}
-.dist-bar-outer{width:100%;background:rgba(245,168,0,0.06);border-radius:4px 4px 0 0;position:relative;overflow:hidden;}
-.dist-bar-inner{width:100%;border-radius:4px 4px 0 0;transition:height 0.6s cubic-bezier(.4,0,.2,1);}
-.dist-label{font-size:16px;line-height:1;}
-.dist-count{font-size:10px;color:var(--text-dim);font-family:'Orbitron',monospace;}
+.empty{text-align:center;padding:2.5rem 1rem;color:var(--text-dim);}
+.empty-icon{font-size:40px;margin-bottom:10px;display:block;}
+.empty-text{font-size:14px;line-height:1.8;}
+.empty a{color:var(--gold);text-decoration:none;font-weight:700;}
 
-/* Empty state */
-.empty{text-align:center;padding:3rem 1rem;color:var(--text-dim);}
-.empty-icon{font-size:48px;margin-bottom:1rem;display:block;}
-.empty-text{font-size:13px;letter-spacing:0.5px;line-height:1.7;}
-.empty a{color:var(--amber);text-decoration:none;letter-spacing:1px;}
+.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--bg-card2);border:2px solid var(--green-border);border-radius:14px;padding:14px 22px;font-size:13px;font-weight:700;color:var(--green);font-family:'Orbitron',monospace;letter-spacing:1px;z-index:500;-webkit-transform:translateY(80px);transform:translateY(80px);opacity:0;-webkit-transition:all 0.35s;transition:all 0.35s;}
+.toast.show{-webkit-transform:translateY(0);transform:translateY(0);opacity:1;}
 
-/* Notification toast */
-.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--bg4);border:1px solid var(--green);border-radius:12px;padding:12px 18px;font-size:12px;color:var(--green);font-family:'Orbitron',monospace;letter-spacing:1px;z-index:500;transform:translateY(80px);opacity:0;transition:all 0.35s cubic-bezier(.4,0,.2,1);}
-.toast.show{transform:translateY(0);opacity:1;}
+.c1{background:#FF4444;}.c2{background:#FF9800;}.c3{background:#FFD600;}.c4{background:#00C853;}.c5{background:#29B6F6;}
 
-/* Colors for rating */
-.c1{background:linear-gradient(to top,#a01018,#e8242f);}
-.c2{background:linear-gradient(to top,#b06a00,#e09000);}
-.c3{background:linear-gradient(to top,#8a8a00,#d4d400);}
-.c4{background:linear-gradient(to top,#007a30,#00c44f);}
-.c5{background:linear-gradient(to top,#005f8a,#00b4d8);}
+@media(max-width:520px){
+  .dash-title{font-size:14px;letter-spacing:2px;}
+  .kpi-value{font-size:36px;}
+  .bar-name{width:86px;font-size:12px;}
+  .wrap{padding:1rem 0.85rem 3rem;}
+  .comment-cell{max-width:80px;}
+}
 </style>
 </head>
 <body>
-<div class="scanline"></div>
 <div class="toast" id="toast">+ Nova avaliação recebida!</div>
-
 <div class="wrap">
 
-  <!-- Header -->
   <div class="dash-header">
-    <div class="dash-brand">
-      <div>
-        <div class="dash-title">FORT — Painel de Satisfação</div>
-        <div class="dash-sub">Atualização automática em tempo real</div>
-      </div>
+    <div>
+      <div class="dash-title">FORT — Painel de Satisfação</div>
+      <div class="dash-sub">Atualização automática a cada 5 segundos</div>
     </div>
-    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">
+    <div style="display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;-webkit-align-items:flex-end;align-items:flex-end;gap:6px;">
       <div class="live-badge"><span class="live-dot"></span>AO VIVO</div>
       <div class="last-update" id="last-update">Aguardando dados...</div>
     </div>
   </div>
 
-  <!-- KPIs -->
-  <div class="kpi-row" id="kpi-row">
+  <div class="kpi-row">
     <div class="kpi-card">
+      <div class="kpi-accent"></div>
       <div class="kpi-label">Total Avaliações</div>
       <div class="kpi-value" id="kpi-total">—</div>
       <div class="kpi-meta">respostas registradas</div>
     </div>
     <div class="kpi-card">
+      <div class="kpi-accent green"></div>
       <div class="kpi-label">Média Geral</div>
       <div class="kpi-value green" id="kpi-avg">—</div>
       <div class="kpi-meta">de 5.0 pontos</div>
     </div>
     <div class="kpi-card">
+      <div class="kpi-accent"></div>
       <div class="kpi-label">Melhor Setor</div>
-      <div class="kpi-value" id="kpi-best" style="font-size:13px;padding-top:6px;line-height:1.4;">—</div>
+      <div class="kpi-value sm" id="kpi-best">—</div>
       <div class="kpi-meta" id="kpi-best-score"></div>
     </div>
     <div class="kpi-card">
+      <div class="kpi-accent red"></div>
       <div class="kpi-label">Precisa de Atenção</div>
-      <div class="kpi-value red" id="kpi-worst" style="font-size:13px;padding-top:6px;line-height:1.4;">—</div>
+      <div class="kpi-value sm red" id="kpi-worst">—</div>
       <div class="kpi-meta" id="kpi-worst-score"></div>
     </div>
   </div>
 
-  <!-- Charts row -->
   <div class="grid-2">
-
-    <!-- Bar chart por setor -->
     <div class="panel">
-      <div class="panel-title"><span>📊</span> Média por Setor</div>
+      <div class="panel-title">📊 Média por Setor</div>
       <div class="bar-list" id="bar-chart">
-        <div class="empty" style="padding:1.5rem 0;"><span style="font-size:30px;display:block;margin-bottom:8px;">📭</span><span style="font-size:12px;color:var(--text-dim);">Sem dados ainda</span></div>
+        <div class="empty" style="padding:1rem 0;">
+          <span style="font-size:28px;display:block;margin-bottom:8px;">📭</span>
+          <span style="font-size:13px;">Sem dados ainda</span>
+        </div>
       </div>
     </div>
-
-    <!-- Distribuição de notas -->
     <div class="panel">
-      <div class="panel-title"><span>📈</span> Distribuição de Notas</div>
+      <div class="panel-title">📈 Distribuição de Notas</div>
       <div class="dist-row" id="dist-chart">
-        <div class="empty" style="padding:1.5rem 0;"><span style="font-size:30px;display:block;margin-bottom:8px;">📭</span><span style="font-size:12px;color:var(--text-dim);">Sem dados ainda</span></div>
+        <div class="empty" style="padding:1rem 0;">
+          <span style="font-size:28px;display:block;margin-bottom:8px;">📭</span>
+          <span style="font-size:13px;">Sem dados ainda</span>
+        </div>
       </div>
-      <div style="display:flex;justify-content:space-around;font-size:9px;color:var(--text-dim);letter-spacing:0.5px;margin-top:4px;" id="dist-labels"></div>
+      <div class="dist-footer" id="dist-labels"></div>
     </div>
   </div>
 
-  <!-- Recent responses -->
   <div class="responses-panel">
-    <div class="panel-title" style="margin-bottom:0.75rem;"><span>🕒</span> Últimas Avaliações</div>
+    <div class="panel-title" style="margin-bottom:1rem;">🕒 Últimas Avaliações</div>
     <div id="resp-container">
       <div class="empty">
         <span class="empty-icon">🔍</span>
@@ -184,189 +178,70 @@ svg.radar{overflow:visible;}
   </div>
 
 </div>
-
 <script>
-const GROUPS = {
-  atend:    {label:'Atendimento',   emoji:'👤'},
-  acougue:  {label:'Açougue',       emoji:'🥩'},
-  horti:    {label:'Horti/Fruti',   emoji:'🥦'},
-  padaria:  {label:'Padaria',       emoji:'🍞'},
-  entrega:  {label:'Entrega',       emoji:'🚚'},
-  recepcao: {label:'Recepção',      emoji:'🏪'},
-  caixa:    {label:'Caixa',         emoji:'💳'},
-  ambiente: {label:'Ambiente',      emoji:'✨'},
-};
+var GROUPS={atend:{label:'Atendimento',emoji:'👤'},acougue:{label:'Açougue',emoji:'🥩'},horti:{label:'Horti/Fruti',emoji:'🥦'},padaria:{label:'Padaria',emoji:'🍞'},entrega:{label:'Entrega',emoji:'🚚'},recepcao:{label:'Recepção',emoji:'🏪'},caixa:{label:'Caixa',emoji:'💳'},ambiente:{label:'Ambiente',emoji:'✨'}};
+var EMOJIS=['','😠','😕','😐','😊','🤩'];
+var DIST_EMOJIS=['😠','😕','😐','😊','🤩'];
+var DIST_LABELS=['Péssimo','Ruim','Regular','Bom','Ótimo'];
+var prevCount=0;
 
-const EMOJIS = ['','😠','😕','😐','😊','🤩'];
-const LABELS = ['','Péssimo','Ruim','Regular','Bom','Ótimo'];
-const COLORS = ['','#e8242f','#e09000','#d4d400','#00c44f','#00b4d8'];
-const DIST_EMOJIS = ['😠','😕','😐','😊','🤩'];
-
-let responses = [];
-let prevCount = 0;
+function safe(fn){try{return fn();}catch(e){return null;}}
+function lsGet(k){return safe(function(){return localStorage.getItem(k);});}
+function lsSet(k,v){safe(function(){localStorage.setItem(k,v);});}
+function lsRemove(k){safe(function(){localStorage.removeItem(k);});}
+function lsKeys(){return safe(function(){return Object.keys(localStorage);})||[];}
 
 function loadData(){
-  // Load all responses from localStorage
-  const keys = Object.keys(localStorage).filter(k => k.startsWith('fort_resp_') || k === 'fort_avaliacao');
-  let arr = [];
-
-  // Legacy single entry support
-  const legacy = localStorage.getItem('fort_avaliacao');
-  if(legacy){
-    try{
-      const p = JSON.parse(legacy);
-      // Migrate to indexed
-      const id = 'fort_resp_' + (p.timestamp || Date.now());
-      if(!localStorage.getItem(id)){
-        localStorage.setItem(id, legacy);
-      }
-      localStorage.removeItem('fort_avaliacao');
-    }catch(e){}
-  }
-
-  const respKeys = Object.keys(localStorage).filter(k => k.startsWith('fort_resp_'));
-  respKeys.forEach(k => {
-    try{ arr.push(JSON.parse(localStorage.getItem(k))); }catch(e){}
-  });
-
-  // Sort by timestamp desc
-  arr.sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
+  var arr=[];
+  var leg=lsGet('fort_avaliacao');
+  if(leg){try{var p=JSON.parse(leg);var id='fort_resp_'+(p.timestamp||Date.now());if(!lsGet(id))lsSet(id,leg);lsRemove('fort_avaliacao');}catch(e){}}
+  lsKeys().filter(function(k){return k.indexOf('fort_resp_')===0;}).forEach(function(k){try{var v=lsGet(k);if(v)arr.push(JSON.parse(v));}catch(e){}});
+  arr.sort(function(a,b){return new Date(b.timestamp)-new Date(a.timestamp);});
   return arr;
 }
 
-function scoreColor(s){
-  if(s <= 2) return 'low';
-  if(s <= 3) return 'mid';
-  return '';
-}
-
-function fmtTime(iso){
-  const d = new Date(iso);
-  return d.toLocaleDateString('pt-BR') + ' ' + d.toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'});
-}
-
-function avgAll(data){
-  if(!data.length) return 0;
-  let sum=0, n=0;
-  data.forEach(r => {
-    Object.values(r.scores).forEach(v => { sum+=v; n++; });
-  });
-  return n ? sum/n : 0;
-}
-
-function groupAvgs(data){
-  const avgs = {};
-  Object.keys(GROUPS).forEach(g => {
-    const vals = data.map(r => r.scores[g]).filter(v => v>0);
-    avgs[g] = vals.length ? vals.reduce((a,b)=>a+b,0)/vals.length : 0;
-  });
-  return avgs;
-}
+function sc(s){return s<=2?'low':s<=3?'mid':'';}
+function fmtTime(iso){try{var d=new Date(iso);return d.toLocaleDateString('pt-BR')+' '+d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});}catch(e){return iso||'';}}
+function avgAll(data){var sum=0,n=0;data.forEach(function(r){Object.keys(r.scores).forEach(function(k){sum+=r.scores[k];n++;});});return n?sum/n:0;}
+function groupAvgs(data){var avgs={};Object.keys(GROUPS).forEach(function(g){var vals=data.map(function(r){return r.scores[g];}).filter(function(v){return v>0;});avgs[g]=vals.length?vals.reduce(function(a,b){return a+b;},0)/vals.length:0;});return avgs;}
 
 function render(){
-  responses = loadData();
-  const n = responses.length;
+  var responses=loadData();
+  var n=responses.length;
+  if(n>prevCount&&prevCount>0){var t=document.getElementById('toast');t.className='toast show';setTimeout(function(){t.className='toast';},3500);}
+  prevCount=n;
+  document.getElementById('last-update').textContent='Atualizado: '+new Date().toLocaleTimeString('pt-BR');
+  document.getElementById('kpi-total').textContent=n||'0';
+  if(!n){['kpi-avg','kpi-best','kpi-worst'].forEach(function(id){document.getElementById(id).textContent='—';});document.getElementById('kpi-best-score').textContent='';document.getElementById('kpi-worst-score').textContent='';return;}
 
-  // Toast on new response
-  if(n > prevCount && prevCount > 0){
-    const t = document.getElementById('toast');
-    t.classList.add('show');
-    setTimeout(()=>t.classList.remove('show'), 3000);
-  }
-  prevCount = n;
+  var avg=avgAll(responses);
+  var ae=document.getElementById('kpi-avg');ae.textContent=avg.toFixed(1);ae.className='kpi-value '+(avg>=4?'green':avg>=3?'':'red');
 
-  // Last update
-  document.getElementById('last-update').textContent = 'Atualizado: ' + new Date().toLocaleTimeString('pt-BR');
+  var avgs=groupAvgs(responses);
+  var sorted=Object.keys(avgs).map(function(k){return[k,avgs[k]];}).sort(function(a,b){return b[1]-a[1];});
+  var best=sorted[0],worst=sorted[sorted.length-1];
+  document.getElementById('kpi-best').textContent=GROUPS[best[0]].emoji+' '+GROUPS[best[0]].label;
+  document.getElementById('kpi-best-score').textContent='Nota: '+best[1].toFixed(1)+' / 5.0';
+  document.getElementById('kpi-worst').textContent=GROUPS[worst[0]].emoji+' '+GROUPS[worst[0]].label;
+  document.getElementById('kpi-worst-score').textContent='Nota: '+worst[1].toFixed(1)+' / 5.0';
 
-  if(!n){
-    document.getElementById('kpi-total').textContent = '0';
-    document.getElementById('kpi-avg').textContent = '—';
-    document.getElementById('kpi-best').textContent = '—';
-    document.getElementById('kpi-worst').textContent = '—';
-    return;
-  }
+  var bh='';sorted.forEach(function(item){var g=item[0],val=item[1];var pct=(val/5)*100;var cls=sc(val);bh+='<div class="bar-item"><div class="bar-name">'+GROUPS[g].emoji+' '+GROUPS[g].label+'</div><div class="bar-track"><div class="bar-fill '+cls+'" style="width:'+pct.toFixed(1)+'%"></div></div><div class="bar-score '+cls+'">'+val.toFixed(1)+'</div></div>';});
+  document.getElementById('bar-chart').innerHTML=bh;
 
-  // KPIs
-  document.getElementById('kpi-total').textContent = n;
-  const avg = avgAll(responses);
-  document.getElementById('kpi-avg').textContent = avg.toFixed(1);
-  document.getElementById('kpi-avg').className = 'kpi-value ' + (avg >= 4 ? 'green' : avg >= 3 ? '' : 'red');
+  var dist=[0,0,0,0,0];responses.forEach(function(r){Object.keys(r.scores).forEach(function(k){var v=r.scores[k];if(v>=1&&v<=5)dist[v-1]++;});});
+  var mx=Math.max.apply(null,dist.concat([1]));
+  var dh='';dist.forEach(function(count,i){var h=Math.round((count/mx)*82);dh+='<div class="dist-col"><div class="dist-count">'+count+'</div><div class="dist-bar-outer" style="height:82px"><div class="dist-bar-inner c'+(i+1)+'" style="height:'+h+'px;margin-top:'+(82-h)+'px"></div></div><div class="dist-emoji">'+DIST_EMOJIS[i]+'</div></div>';});
+  document.getElementById('dist-chart').innerHTML=dh;
+  document.getElementById('dist-labels').innerHTML=DIST_LABELS.map(function(l){return'<span>'+l+'</span>';}).join('');
 
-  const avgs = groupAvgs(responses);
-  const sorted = Object.entries(avgs).sort((a,b)=>b[1]-a[1]);
-  const best = sorted[0];
-  const worst = sorted[sorted.length-1];
-
-  document.getElementById('kpi-best').textContent = GROUPS[best[0]].emoji + ' ' + GROUPS[best[0]].label;
-  document.getElementById('kpi-best-score').textContent = best[1].toFixed(1) + ' de 5.0';
-  document.getElementById('kpi-worst').textContent = GROUPS[worst[0]].emoji + ' ' + GROUPS[worst[0]].label;
-  document.getElementById('kpi-worst-score').textContent = worst[1].toFixed(1) + ' de 5.0';
-
-  // Bar chart
-  const bar = document.getElementById('bar-chart');
-  bar.innerHTML = '';
-  sorted.forEach(([g, val]) => {
-    const pct = (val/5)*100;
-    const cls = val <= 2 ? 'low' : val <= 3 ? 'mid' : '';
-    bar.innerHTML += `
-      <div class="bar-item">
-        <div class="bar-name">${GROUPS[g].emoji} ${GROUPS[g].label}</div>
-        <div class="bar-track"><div class="bar-fill ${cls}" style="width:${pct.toFixed(1)}%"></div></div>
-        <div class="bar-score">${val.toFixed(1)}</div>
-      </div>`;
-  });
-
-  // Distribution chart
-  const dist = [0,0,0,0,0]; // 1..5
-  responses.forEach(r => {
-    Object.values(r.scores).forEach(v => { if(v>=1&&v<=5) dist[v-1]++; });
-  });
-  const maxDist = Math.max(...dist, 1);
-  const dc = document.getElementById('dist-chart');
-  dc.innerHTML = '';
-  dist.forEach((count, i) => {
-    const h = Math.round((count/maxDist)*74);
-    dc.innerHTML += `
-      <div class="dist-col">
-        <div class="dist-count">${count}</div>
-        <div class="dist-bar-outer" style="height:74px">
-          <div class="dist-bar-inner c${i+1}" style="height:${h}px;margin-top:${74-h}px"></div>
-        </div>
-        <div class="dist-label">${DIST_EMOJIS[i]}</div>
-      </div>`;
-  });
-  document.getElementById('dist-labels').innerHTML = ['Péssimo','Ruim','Regular','Bom','Ótimo'].map(l=>`<span>${l}</span>`).join('');
-
-  // Responses table
-  const rc = document.getElementById('resp-container');
-  const last10 = responses.slice(0, 10);
-  let rows = last10.map(r => {
-    const rAvg = Object.values(r.scores).reduce((a,b)=>a+b,0)/Object.values(r.scores).length;
-    const pill = scoreColor(rAvg);
-    const emoji = EMOJIS[Math.round(rAvg)] || '😐';
-    const scores = Object.entries(r.scores).map(([g,v])=>`${GROUPS[g].emoji}${v}`).join(' ');
-    return `<tr>
-      <td>${fmtTime(r.timestamp)}</td>
-      <td><span class="score-pill ${pill}">${emoji} ${rAvg.toFixed(1)}</span></td>
-      <td style="font-size:11px;color:var(--text-dim);">${scores}</td>
-      <td class="comment-cell">${r.comment || '<span style="opacity:0.4">—</span>'}</td>
-    </tr>`;
-  }).join('');
-
-  rc.innerHTML = `<table class="resp-table">
-    <thead><tr>
-      <th>Horário</th><th>Média</th><th>Setores</th><th>Comentário</th>
-    </tr></thead>
-    <tbody>${rows}</tbody>
-  </table>`;
+  var last10=responses.slice(0,10);
+  var rows=last10.map(function(r){var vals=Object.keys(r.scores).map(function(k){return r.scores[k];});var rAvg=vals.reduce(function(a,b){return a+b;},0)/vals.length;var cls=sc(rAvg);var emoji=EMOJIS[Math.round(rAvg)]||'😐';var tags=Object.keys(r.scores).map(function(g){return'<span class="stag">'+GROUPS[g].emoji+' '+r.scores[g]+'</span>';}).join('');return'<tr><td style="white-space:nowrap;">'+fmtTime(r.timestamp)+'</td><td><span class="score-pill '+cls+'">'+emoji+' '+rAvg.toFixed(1)+'</span></td><td><div class="stags">'+tags+'</div></td><td class="comment-cell">'+(r.comment||'<span style="opacity:0.3">—</span>')+'</td></tr>';}).join('');
+  document.getElementById('resp-container').innerHTML='<table class="resp-table"><thead><tr><th>Horário</th><th>Média</th><th>Setores</th><th>Comentário</th></tr></thead><tbody>'+rows+'</tbody></table>';
 }
 
-// Auto-refresh every 5 seconds
 render();
-setInterval(render, 5000);
-
-// Also listen for storage events (cross-tab)
-window.addEventListener('storage', render);
+setInterval(render,5000);
+if(window.addEventListener){window.addEventListener('storage',render,false);}else if(window.attachEvent){window.attachEvent('onstorage',render);}
 </script>
 </body>
 </html>
